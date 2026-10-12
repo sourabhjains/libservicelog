@@ -43,6 +43,20 @@ AC_PROG_LIBTOOL
 AC_SUBST(LIBTOOL_DEPS)
 AM_PROG_CC_C_O
 
+dnl Enable _FORTIFY_SOURCE only when optimization is enabled
+AC_MSG_CHECKING([whether optimization is enabled])
+AC_COMPILE_IFELSE(
+  [AC_LANG_PROGRAM([[]], [[
+# ifndef __OPTIMIZE__
+# error Compiler optimization is disabled
+# endif
+  ]])],
+  [FORTIFY_CFLAGS="-U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=3"
+   AC_MSG_RESULT([yes, using $FORTIFY_CFLAGS])],
+  [FORTIFY_CFLAGS=""
+   AC_MSG_RESULT([no, _FORTIFY_SOURCE disabled])])
+AC_SUBST([FORTIFY_CFLAGS])
+
 # Checks for libraries.
 AC_CHECK_LIB([sqlite3], [sqlite3_open], [], [
 	echo "Error! libsqlite3 not found"

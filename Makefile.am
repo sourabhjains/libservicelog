@@ -18,7 +18,8 @@ ACLOCAL_AMFLAGS = -I m4
 EXTRA_DIST = servicelog.db bootstrap.sh src/tests/*
 
 #AM_CPPFLAGS	= -I.. -I./servicelog-1/
-AM_CFLAGS	= -Wall -g -I.. -I./servicelog-1 -DDEST_DIR='"${exec_prefix}"'
+AM_CFLAGS	= -Wall -g -I.. -I./servicelog-1 -DDEST_DIR='"${exec_prefix}"' \
+		  $(FORTIFY_CFLAGS)
 AM_LDFLAGS	= -lsqlite3 -lrtas -lrtasevent
 
 library_include_HEADERS = servicelog-1/servicelog.h servicelog-1/libservicelog.h
